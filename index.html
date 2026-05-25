@@ -4,114 +4,90 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Photo Booth Strip</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    .container {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      align-items: flex-start;
-      margin-top: 20px;
-    }
-
-    .camera-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    video {
-      border: 3px solid #333;
-      border-radius: 10px;
-      width: 250px; /* small camera */
-      height: auto;
-    }
-
-    .controls {
-      margin-top: 10px;
-      text-align: center;
-    }
-
-    button, select {
-      margin: 5px;
-      padding: 8px 15px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .strip-template {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .polaroid {
-      width: 120px;
-      height: 160px;
-      background: #fff;
-      border: 2px solid #ccc;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: #aaa;
-    }
-
-    img.photo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Photo Booth Strip</h1>
+  <main class="app-shell">
+    <header class="app-header">
+      <p class="eyebrow">Tiny studio, big sparkle</p>
+      <h1>Photo Booth Strip</h1>
+      <p class="intro">Pick a playful filter, smile through the countdown, and build a bright photo strip in your browser.</p>
+    </header>
 
-  <div class="container">
-    <div id="strip" class="strip-template">
-      <!-- Polaroid placeholders appear here -->
-    </div>
-    <div class="camera-section">
-      <video id="video" autoplay></video>
+    <section class="booth-layout" aria-label="Photo booth workspace">
+      <section class="camera-panel" aria-labelledby="camera-title">
+        <div class="panel-heading">
+          <div>
+            <p class="section-label">Live preview</p>
+            <h2 id="camera-title">Camera</h2>
+          </div>
+          <p id="cameraStatus" class="status-pill status-waiting" role="status">Starting camera...</p>
+        </div>
 
-      <div class="controls">
-        <label>Number of Photos:
-          <select id="numPhotos">
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </label>
+        <div class="video-frame">
+          <video id="video" autoplay playsinline muted></video>
+          <div id="countdownOverlay" class="countdown-overlay" aria-live="assertive"></div>
+        </div>
 
-        <br>
+        <p id="actionMessage" class="action-message" role="status">Allow camera access to start your strip.</p>
 
-        <label>Filter:
-          <select id="filter">
-            <option value="none">None</option>
-            <option value="grayscale(100%)">Grayscale</option>
-            <option value="sepia(100%)">Sepia</option>
-            <option value="invert(100%)">Invert</option>
-            <option value="contrast(200%)">High Contrast</option>
-          </select>
-        </label>
+        <div class="controls" aria-label="Photo booth controls">
+          <label class="field">
+            <span>Photos</span>
+            <select id="numPhotos">
+              <option value="3">3 photos</option>
+              <option value="4">4 photos</option>
+            </select>
+          </label>
 
-        <br>
+          <label class="field">
+            <span>Countdown</span>
+            <select id="countdownLength">
+              <option value="3">3 seconds</option>
+              <option value="5">5 seconds</option>
+              <option value="0">No countdown</option>
+            </select>
+          </label>
 
-        <button id="snap">Take Photo</button>
-        <button id="retry">Retry</button>
-        <button id="download">Download Strip</button>
-      </div>
+          <label class="field">
+            <span>Filter</span>
+            <select id="filter">
+              <option value="none">None</option>
+              <option value="grayscale(100%)">Grayscale</option>
+              <option value="sepia(100%)">Sepia</option>
+              <option value="invert(100%)">Invert</option>
+              <option value="contrast(200%)">High Contrast</option>
+              <option value="blur(3px)">Dream Blur</option>
+              <option value="brightness(135%)">Bright Pop</option>
+              <option value="saturate(180%)">Candy Saturate</option>
+              <option value="hue-rotate(90deg)">Hue Rotate</option>
+              <option value="sepia(60%) contrast(115%) brightness(105%) saturate(85%)">Vintage</option>
+            </select>
+          </label>
 
-  </div>
+          <div class="button-row">
+            <button id="snap" class="button primary" type="button">Take Photo</button>
+            <button id="retry" class="button secondary" type="button">Retry</button>
+            <button id="download" class="button secondary" type="button">Download Strip</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="strip-panel" aria-labelledby="strip-title">
+        <div class="panel-heading">
+          <div>
+            <p class="section-label">Preview</p>
+            <h2 id="strip-title">Your strip</h2>
+          </div>
+          <p id="progressText" class="progress-text">0 of 3</p>
+        </div>
+
+        <div id="strip" class="strip-template" aria-live="polite">
+          <!-- Photo slots appear here -->
+        </div>
+      </aside>
+    </section>
+  </main>
 
   <script src="app.js"></script>
 </body>
