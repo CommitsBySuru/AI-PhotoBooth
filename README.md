@@ -101,7 +101,7 @@ git clone https://github.com/CommitsBySuru/AI-PhotoBooth.git
 
 ## Repository Link
 
-:contentReference[oaicite:0]{index=0}
+https://github.com/CommitsBySuru/AI-PhotoBooth
 
 ---
 
